@@ -69,5 +69,41 @@ This file serves as a log of all prompts and AI interactions used during the dev
 ### Entry 10
 **Date:** 2026-08-09
 **Goal:** Verify cron job behavior when database is empty.
-**Prompt:** "after 1 minute i got \"No agents found sleeping\" in the console log. was this output expected?"
+**Prompt:** "after 1 minute i got "No agents found sleeping" in the console log. was this output expected?"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 11
+**Date:** 2026-08-09
+**Goal:** Initialize frontend with Vite, React, and Tailwind CSS.
+**Prompt:** "Lets move to frontend. Design frontend for the website using react and tailwindcss. Use vite to set everything up"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 12
+**Date:** 2026-08-09
+**Goal:** Fix undefined TypeError crashing the React UI.
+**Prompt:** "I get this error when i try to do load feed"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 13
+**Date:** 2026-08-09
+**Goal:** Swap out Gemini for Grok API.
+**Prompt:** "Works now but we will be shifting to using grok instead of gemini since it only has a 20 requests per day limit."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 14
+**Date:** 2026-08-09
+**Goal:** Get recommendations for AI endpoints with higher free limits.
+**Prompt:** "Before i start using grok, do you recommend another AI agent to use with more requests per day on its free tier?"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 15
+**Date:** 2026-08-09
+**Goal:** Switch the codebase to use Groq API and pick the best model for the task.
+**Prompt:** "Lets proceed with groq then, Here is a list of all the free tier models. Choose the best one and implement it in the codebase"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 16
+**Date:** 2026-08-09
+**Goal:** Remind the AI to update the prompts.md log.
+**Prompt:** "Why have you stopped updating the prompts.md?"
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)

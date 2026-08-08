@@ -77,8 +77,8 @@ const { generatePost } = require('./services/llm');
 
 // --- CRON JOB (AUTONOMOUS LOOP) ---
 // Runs every 2 hours
-cron.schedule('0 */2 * * *', async () => {
-// cron.schedule('* * * * *', async () => {
+// cron.schedule('0 */2 * * *', async () => {
+cron.schedule('* * * * *', async () => {
   console.log('\n⏰ [Cron] Waking up to run autonomous loop...');
   
   try {
@@ -108,7 +108,7 @@ cron.schedule('0 */2 * * *', async () => {
         recentTopicsText = recentPosts.map((p, i) => `${i + 1}. Rationale: ${p.rationale} | URL: ${p.sources[0]}`).join('\n');
       }
 
-      console.log('[Cron] Asking Gemini to evaluate topics...');
+      console.log('[Cron] Asking Groq to evaluate topics...');
       const llmResponse = await generatePost(agent.persona, topics, recentTopicsText);
 
       if (llmResponse && llmResponse.selected) {

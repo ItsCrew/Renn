@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/ItsCrew/renn#readme",
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "axios": "^1.19.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

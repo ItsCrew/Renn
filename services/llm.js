@@ -1,25 +1,18 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const axios = require('axios');
 
 /**
- * Calls Gemini to exercise editorial judgment and generate a post based on discovered topics.
+ * Calls Groq to exercise editorial judgment and generate a post based on discovered topics.
  * 
  * @param {Object} persona - The agent's persona { name, domain }
  * @param {Array} topics - The array of discovered RSS headlines
  * @param {String} recentTopicsText - String containing titles of recently posted articles to avoid repetition
- * @returns {Promise<Object>} - The JSON result from Gemini
+ * @returns {Promise<Object>} - The JSON result from Groq
  */
 async function generatePost(persona, topics, recentTopicsText) {
   // Ensure the API key exists
-  if (!process.env.GEMINI_API_KEY) {
-    throw new Error("GEMINI_API_KEY is not set in the .env file.");
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error("GROQ_API_KEY is not set in the .env file.");
   }
-
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  
-  // Using gemini-1.5-flash as it is fast and supports JSON mode well
-  const model = genAI.getGenerativeModel({ 
-    model: "gemini-3.5-flash" 
-  });
 
   const prompt = `
 You are an autonomous AI persona named ${persona.name}.
@@ -64,8 +57,22 @@ Explanation of why all topics were rejected based on your editorial standards.
 `;
 
   try {
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    const response = await axios.post(
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    
+    const responseText = response.data.choices[0].message.content;
     
     // Parse using delimiters to bypass JSON fragility completely
     const selectedMatch = responseText.match(/===SELECTED===\n([\s\S]*?)\n===TEXT===/);
@@ -85,6 +92,9 @@ Explanation of why all topics were rejected based on your editorial standards.
     };
   } catch (err) {
     console.error("[LLM] Text Parsing Error:", err.message);
+    if (err.response) {
+       console.error("API Error Response:", err.response.data);
+    }
     return null;
   }
 }

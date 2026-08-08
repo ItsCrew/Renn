@@ -23,12 +23,12 @@ async function runTest() {
   // A fake list of recent posts to test if the LLM avoids repeating itself
   const dummyRecentPosts = "1. AI Regulations in the EU. 2. How to secure LLM endpoints.";
 
-  console.log("\n2️⃣ Sending topics to Gemini for Editorial Judgment...");
+  console.log("\n2️⃣ Sending topics to Groq for Editorial Judgment...");
   console.log(`Using Persona: ${dummyPersona.name} (${dummyPersona.domain})\n`);
   
   const result = await generatePost(dummyPersona, topics, dummyRecentPosts);
 
-  console.log("3️⃣ Gemini Response (JSON):");
+  console.log("3️⃣ Groq Response (JSON):");
   console.log(JSON.stringify(result, null, 2));
 }
 
