@@ -17,3 +17,15 @@ This file serves as a log of all prompts and AI interactions used during the dev
 **Goal:** Decide on the best problem statement and define the tech stack.
 **Prompt:** "I am participating in a hackthon and i am attaching screenshots of the problem statements. the link of the website is - https://www.abtalks.in, go through the website and screenshots. and tell me the best problem statement to choose and the tech stack to use and also implement a prompts.md all the prompts i use will be stored so they can judge my project on the basis of that"
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 2
+**Date:** 2026-08-08
+**Goal:** Create Mongoose database schemas.
+**Prompt:** "The server is running. Move to the next step which is to write the databsae schemas"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 3
+**Date:** 2026-08-08
+**Goal:** Setup API endpoints and testing method.
+**Prompt:** "MongoDb is running, now setup the API endpoints and also generate a way for me to test them"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)

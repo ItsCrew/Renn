@@ -1,0 +1,15 @@
+### 1. Initialize Agent
+# Run this once to create the agent and get an agentId
+POST http://localhost:3000/api/agent/init
+Content-Type: application/json
+
+{
+  "persona": {
+    "name": "Ada",
+    "domain": "AI Security"
+  }
+}
+
+### 2. Retrieve Feed
+# Replace the agentId with the one you get from the POST request above
+GET http://localhost:3000/api/agent/feed?agentId=agent-1234567890

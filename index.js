@@ -9,12 +9,14 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// Initialize MongoDB connection (uncomment when adding MONGODB_URI to .env)
-/*
+// Import Models
+const Agent = require('./models/Agent');
+const Post = require('./models/Post');
+
+// Initialize MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
-*/
 
 // --- API ENDPOINTS ---
 
@@ -27,9 +29,17 @@ app.post('/api/agent/init', async (req, res) => {
       return res.status(400).json({ error: 'Invalid persona provided' });
     }
 
-    // TODO: Generate unique agentId, save persona to DB, start cron job
+    // Generate unique agentId
     const agentId = `agent-${Date.now()}`;
     
+    // Save Agent to DB
+    const newAgent = new Agent({
+      agentId,
+      persona
+    });
+    
+    await newAgent.save();
+
     console.log(`Initialized agent ${agentId} with persona:`, persona);
 
     res.json({ agentId });
@@ -48,11 +58,11 @@ app.get('/api/agent/feed', async (req, res) => {
       return res.status(400).json({ error: 'agentId query parameter is required' });
     }
 
-    // TODO: Fetch posts for this agentId from DB in reverse chronological order
-    // If no posts, return { posts: [] }
+    // Fetch posts for this agentId in reverse chronological order
+    const posts = await Post.find({ agentId }).sort({ createdAt: -1 });
     
     res.json({
-      posts: []
+      posts
     });
   } catch (error) {
     console.error('Error in /feed:', error);
