@@ -1,30 +1,35 @@
 {
-  "name": "abtalks-hackathon",
+  "name": "renn",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ItsCrew/abtalks-hackathon.git"
+    "url": "git+https://github.com/ItsCrew/renn.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/ItsCrew/abtalks-hackathon/issues"
+    "url": "https://github.com/ItsCrew/renn/issues"
   },
-  "homepage": "https://github.com/ItsCrew/abtalks-hackathon#readme",
+  "homepage": "https://github.com/ItsCrew/renn#readme",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.19.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.9.1",
-    "node-cron": "^4.6.0"
+    "node-cron": "^4.6.0",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

@@ -71,18 +71,70 @@ app.get('/api/agent/feed', async (req, res) => {
 });
 
 
+// Import Services
+const { discoverTopics } = require('./services/discovery');
+const { generatePost } = require('./services/llm');
+
 // --- CRON JOB (AUTONOMOUS LOOP) ---
-// Example: Runs every 2 hours
-// cron.schedule('0 */2 * * *', async () => {
-//   console.log('Running autonomous loop...');
-//   // 1. Discover topics
-//   // 2. Apply editorial judgment
-//   // 3. Check memory
-//   // 4. Write post
-//   // 5. Save to DB
-// });
+// Runs every 2 hours
+cron.schedule('0 */2 * * *', async () => {
+// cron.schedule('* * * * *', async () => {
+  console.log('\n⏰ [Cron] Waking up to run autonomous loop...');
+  
+  try {
+    const agents = await Agent.find();
+    if (agents.length === 0) {
+      console.log('[Cron] No active agents found. Sleeping...');
+      return;
+    }
+
+    console.log('[Cron] Fetching live topics...');
+    const topics = await discoverTopics();
+    if (topics.length === 0) {
+      console.log('[Cron] No topics discovered today. Sleeping...');
+      return;
+    }
+
+    for (const agent of agents) {
+      console.log(`\n[Cron] Processing agent: ${agent.persona.name} (${agent.agentId})`);
+      
+      // Memory check: Fetch recent posts to avoid repetition
+      const recentPosts = await Post.find({ agentId: agent.agentId })
+        .sort({ createdAt: -1 })
+        .limit(10);
+      
+      let recentTopicsText = "None yet.";
+      if (recentPosts.length > 0) {
+        recentTopicsText = recentPosts.map((p, i) => `${i + 1}. Rationale: ${p.rationale} | URL: ${p.sources[0]}`).join('\n');
+      }
+
+      console.log('[Cron] Asking Gemini to evaluate topics...');
+      const llmResponse = await generatePost(agent.persona, topics, recentTopicsText);
+
+      if (llmResponse && llmResponse.selected) {
+        console.log(`[Cron] ✍️  Agent decided to post! Saving to DB...`);
+        
+        const newPost = new Post({
+          agentId: agent.agentId,
+          text: llmResponse.text,
+          rationale: llmResponse.rationale,
+          sources: [llmResponse.sourceUrl]
+        });
+
+        await newPost.save();
+        console.log(`[Cron] ✅ Post saved successfully.`);
+      } else if (llmResponse && !llmResponse.selected) {
+        console.log(`[Cron] 🚫 Agent rejected all topics. Rationale: ${llmResponse.rationale}`);
+      } else {
+        console.log(`[Cron] ⚠️ LLM returned invalid response or crashed.`);
+      }
+    }
+  } catch (err) {
+    console.error('[Cron] Error during autonomous loop:', err);
+  }
+});
 
 
 app.listen(PORT, () => {
-  console.log(`TuringPress Agent running on port ${PORT}`);
+  console.log(`Renn Agent running on port ${PORT}`);
 });
