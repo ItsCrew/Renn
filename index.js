@@ -111,15 +111,6 @@ cron.schedule('0 */2 * * *', async () => {
 });
 
 
-// ─── Serve React Frontend (Production) ────────────────────────────────────────
-// In production the client is built to client/dist. Express serves those static
-// files and falls back to index.html for every unmatched route so React Router
-// can handle client-side navigation. The /api routes above take priority.
-const clientBuildPath = path.join(__dirname, 'client', 'dist');
-app.use(express.static(clientBuildPath));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(clientBuildPath, 'index.html'));
-});
 
 app.listen(PORT, () => {
   console.log(`Renn Agent running on port ${PORT}`);

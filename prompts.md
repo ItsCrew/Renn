@@ -209,3 +209,33 @@ This file serves as a log of all prompts and AI interactions used during the dev
 **Goal:** Find workarounds for hosting without a domain name.
 **Prompt:** "I do not have a domain"
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 34
+**Date:** 2026-08-09
+**Goal:** Troubleshoot Let's Encrypt 500 Invalid Response errors due to Node.js proxy interception.
+**Prompt:** "getting this (certbot failed to authenticate... 500 Invalid response)"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 35
+**Date:** 2026-08-09
+**Goal:** Fix persistent Certbot 500 error by intercepting the ACME challenge directly in Nginx.
+**Prompt:** "did all the steps and still getting this error"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 36
+**Date:** 2026-08-09
+**Goal:** Address Let's Encrypt rate limiting after multiple failed authorizations.
+**Prompt:** "how long do i have to wait? (Too many failed authorizations)"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 37
+**Date:** 2026-08-09
+**Goal:** Analyze conflicting port issues between multiple Nginx virtual hosts.
+**Prompt:** "for reference this is how the sites available file looks for repovet server"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 38
+**Date:** 2026-08-09
+**Goal:** Revert to Repovet Nginx architecture to ensure deployment before the hackathon deadline.
+**Prompt:** "the port is 5000 not 3000, and can you just make the setup of renn same as repovet? I dont have time my submission is at 8:00 PM..."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
