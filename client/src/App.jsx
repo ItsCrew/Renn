@@ -56,8 +56,8 @@ const Navbar = ({ postCount, onRefresh, loading, onHome }) => (
     <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
       {/* Logo */}
       <button onClick={onHome} className="flex items-center gap-3 group">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
-          <Zap className="w-4 h-4 text-white" fill="currentColor" />
+        <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+          <img src="/logo.png" alt="Renn Logo" className="w-full h-full object-contain" />
         </div>
         <div className="flex flex-col leading-none">
           <span className="font-extrabold text-lg text-white tracking-tight">Renn</span>

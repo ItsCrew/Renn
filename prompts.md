@@ -95,3 +95,15 @@ This file serves as a log of all prompts and AI interactions used during the dev
 **Goal:** SSL Setup & DNS Configuration
 **Prompt:** "The app is running. Walk me through configuring my Hostinger DNS A-records to point to the VPS IP, and help me run Certbot to secure the site with Let's Encrypt SSL."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 15
+**Date:** 2026-08-09
+**Goal:** API Compliance for Automated Evaluation
+**Prompt:** "Ensure the Express backend exposes the exact '/api/agent/init' and '/api/agent/feed' endpoints required by the Hackathon Automated Evaluator bot, returning data in the exact specified JSON schema."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 16
+**Date:** 2026-08-09
+**Goal:** Discord Webhook Alerting & Branding Update
+**Prompt:** "Replace the default frontend icon with a custom RN gradient logo."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)

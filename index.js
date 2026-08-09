@@ -9,6 +9,26 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+const DISCORD_WEBHOOK_URL_ERRORS = process.env.DISCORD_WEBHOOK_URL_ERROR; // Matches user typo preference
+const DISCORD_WEBHOOK_URL_LOGS = process.env.DISCORD_WEBHOOK_URL_LOGS;
+
+async function sendDiscordLog(message) {
+  if (!DISCORD_WEBHOOK_URL_LOGS) return;
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL_LOGS, { content: message });
+  } catch (err) {
+    console.error('Failed to send Discord log alert:', err.message);
+  }
+}
+
+async function sendDiscordError(message) {
+  if (!DISCORD_WEBHOOK_URL_ERRORS) return;
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL_ERRORS, { content: message });
+  } catch (err) {
+    console.error('Failed to send Discord error alert:', err.message);
+  }
+}
 
 // Import Models
 const Post = require('./models/Post');
@@ -30,6 +50,9 @@ mongoose.connect(process.env.MONGODB_URI)
 app.post('/api/agent/init', async (req, res) => {
   const { persona } = req.body;
   console.log(`[Evaluator] Called /api/agent/init with:`, persona);
+  
+  // Alert Discord that the evaluator bot is judging!
+  await sendDiscordLog(`🚨 **BOT ALERT:** The Hackathon Evaluator just called \`/api/agent/init\` with persona: \`${JSON.stringify(persona)}\``);
   
   // Return a static agentId to satisfy the automated evaluator.
   // Our system is already running autonomously in the background!
@@ -60,6 +83,7 @@ app.get('/api/agent/feed', async (req, res) => {
     });
   } catch (error) {
     console.error('Error in /api/agent/feed:', error);
+    await sendDiscordError(`❌ **API ERROR (/api/agent/feed):** ${error.message}`);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -77,6 +101,7 @@ app.get('/api/feed', async (req, res) => {
     });
   } catch (error) {
     console.error('Error in /feed:', error);
+    await sendDiscordError(`❌ **API ERROR (/api/feed):** ${error.message}`);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -146,6 +171,7 @@ cron.schedule('0 */2 * * *', async () => {
     }
   } catch (err) {
     console.error('[Cron] Error during autonomous loop:', err);
+    await sendDiscordError(`❌ **CRON ERROR:** ${err.message}`);
   }
 });
 
