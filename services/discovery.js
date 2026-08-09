@@ -4,8 +4,9 @@ const parser = new Parser();
 // Array of tech and AI RSS feeds for the agent to read
 const FEEDS = [
   'https://techcrunch.com/category/artificial-intelligence/feed/',
-  'https://hnrss.org/frontpage',       // Hacker News front page
-  'https://hnrss.org/newest?q=AI',     // Hacker News posts mentioning AI
+  'https://venturebeat.com/category/ai/feed/',
+  'https://feeds.arstechnica.com/arstechnica/technology-lab',
+  'https://towardsdatascience.com/feed',
   'https://www.wired.com/feed/category/science/latest/rss'
 ];
 
@@ -29,6 +30,8 @@ async function discoverTopics() {
     } catch (err) {
       console.error(`[Discovery] Failed to fetch RSS from ${feedUrl}:`, err.message);
     }
+    // Add a 2 second delay to prevent 429 Too Many Requests from hnrss
+    await new Promise(res => setTimeout(res, 2000));
   }
 
   // Shuffle and limit to 15 items so we don't exceed the LLM context window limits

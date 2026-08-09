@@ -15,7 +15,7 @@ This file serves as a log of all prompts and AI interactions used during the dev
 ### Entry 1
 **Date:** 2026-08-08
 **Goal:** Decide on the best problem statement and define the tech stack.
-**Prompt:** "I am participating in a hackthon and i am attaching screenshots of the problem statements. the link of the website is - https://www.abtalks.in, go through the website and screenshots. and tell me the best problem statement to choose and the tech stack to use and also implement a prompts.md all the prompts i use will be stored so they can judge my project on the basis of that"
+**Prompt:** "I am participating in a hackthon and i am attaching screenshots of the problem statements..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 2
@@ -33,25 +33,25 @@ This file serves as a log of all prompts and AI interactions used during the dev
 ### Entry 4
 **Date:** 2026-08-08
 **Goal:** Setup Topic Discovery and AI LLM integration logic.
-**Prompt:** "Setup both Topic discovery along with a prompt for the ai to fetch those articles and news related to the given topics through sources. also plesae change the name of this project to Renn everywhere in the code."
+**Prompt:** "Setup both Topic discovery along with a prompt for the ai to fetch those articles..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 5
 **Date:** 2026-08-08
-**Goal:** Inquire about Gemini model selection and request a way to test services in isolation.
-**Prompt:** "Before hooking these services into an autonomous loop, I want to test it. How can i test it, Also what would be the best model to use for this. Is gemini 1.5- flash the best?"
+**Goal:** Inquire about Gemini model selection and request a way to test services.
+**Prompt:** "Before hooking these services into an autonomous loop, I want to test it..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 6
 **Date:** 2026-08-08
-**Goal:** Fix LLM JSON parsing error and configure nodemon for auto-restarts.
-**Prompt:** "It didnt work the first time i ran it because flash1.5 is now unavailable. i changed the model to 3.5 flash instead after which it ran fine once but then when i ran it again it gave me an error, investigate and find out what could be causing the error and also implement nodemon so any changes automatically restart the server"
+**Goal:** Fix LLM JSON parsing error and configure nodemon.
+**Prompt:** "It didnt work the first time i ran it because flash1.5 is now unavailable..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 7
 **Date:** 2026-08-09
 **Goal:** Investigate persistent JSON parsing errors and model issues.
-**Prompt:** "No the gemini 1.5 is not available anymore and has been deprecated since 2025. Also while it did find a different news article this time the json response and the source was the same as the first time i ran the command. i have attached the screenshots. and when i ran the command the second time i got the same error again."
+**Prompt:** "No the gemini 1.5 is not available anymore and has been deprecated since 2025..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 8
@@ -69,7 +69,7 @@ This file serves as a log of all prompts and AI interactions used during the dev
 ### Entry 10
 **Date:** 2026-08-09
 **Goal:** Verify cron job behavior when database is empty.
-**Prompt:** "after 1 minute i got "No agents found sleeping" in the console log. was this output expected?"
+**Prompt:** "after 1 minute i got 'No agents found sleeping' in the console log. was this output expected?"
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 11
@@ -87,7 +87,7 @@ This file serves as a log of all prompts and AI interactions used during the dev
 ### Entry 13
 **Date:** 2026-08-09
 **Goal:** Swap out Gemini for Grok API.
-**Prompt:** "Works now but we will be shifting to using grok instead of gemini since it only has a 20 requests per day limit."
+**Prompt:** "Works now but we will be shifting to using grok instead of gemini..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 14
@@ -98,8 +98,8 @@ This file serves as a log of all prompts and AI interactions used during the dev
 
 ### Entry 15
 **Date:** 2026-08-09
-**Goal:** Switch the codebase to use Groq API and pick the best model for the task.
-**Prompt:** "Lets proceed with groq then, Here is a list of all the free tier models. Choose the best one and implement it in the codebase"
+**Goal:** Switch the codebase to use Groq API and pick the best model.
+**Prompt:** "Lets proceed with groq then, Here is a list of all the free tier models..."
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
 
 ### Entry 16
@@ -107,3 +107,87 @@ This file serves as a log of all prompts and AI interactions used during the dev
 **Goal:** Remind the AI to update the prompts.md log.
 **Prompt:** "Why have you stopped updating the prompts.md?"
 **AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 17
+**Date:** 2026-08-09
+**Goal:** Modify RSS discovery logic to fetch topics aligned with specific AI/Tech personas.
+**Prompt:** "what are all the sources being used to find the AI related news?..."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 18
+**Date:** 2026-08-09
+**Goal:** Clarify scope of AI personas.
+**Prompt:** "There is no need for a specific domain. AI Security was just an example..."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 19
+**Date:** 2026-08-09
+**Goal:** Refactor system to a single, autonomous AI agent.
+**Prompt:** "Instead of having the ability to make different agents. Just change it into 1 agent which once started will keep looking for new news about AI..."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 20
+**Date:** 2026-08-09
+**Goal:** Fix Hacker News RSS 429 Too Many Requests error.
+**Prompt:** "seems to be hitting 429 when trying to find news from hnrss"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 21
+**Date:** 2026-08-09
+**Goal:** Consolidate Hacker News RSS feeds to resolve strict rate limits.
+**Prompt:** "Still hitting status code 429"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 22
+**Date:** 2026-08-09
+**Goal:** Remove Hacker News RSS feeds entirely to bypass IP bans.
+**Prompt:** "Despite your last issue the agent again hit 429"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 23
+**Date:** 2026-08-09
+**Goal:** Redesign UI to be highly premium and dynamic for a single agent.
+**Prompt:** "Now that there is no more multi agent architecutre can you go through the whole frontend code and make needed changes or improvements for both UX/UI"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 24
+**Date:** 2026-08-09
+**Goal:** Investigate integrating Breeth AI memory layer into the agent loop.
+**Prompt:** "How can i implement Breeth ai in this. the website link is thebreeth.com"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 25
+**Date:** 2026-08-09
+**Goal:** Implement Breeth AI REST API wrapper and integrate it into the autonomous loop.
+**Prompt:** "Yes implement this to Renn"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 26
+**Date:** 2026-08-09
+**Goal:** Fix 404 error caused by incorrect Breeth API endpoints.
+**Prompt:** "Encountered these errors when i ran the backend"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 27
+**Date:** 2026-08-09
+**Goal:** Fix 422 Unprocessable Entity error caused by incorrect Breeth API payload schema.
+**Prompt:** "Encountered 422 this time"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 28
+**Date:** 2026-08-09
+**Goal:** Redesign the frontend layout to remove the sidebar and convert the feed into a clickable grid.
+**Prompt:** "Okay some frontend changes that i think we can implement is that since this is just a single page website we dont really need a side bar..."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 29
+**Date:** 2026-08-09
+**Goal:** Implement a detailed post view when a user clicks a feed grid card.
+**Prompt:** "Instead of the boxes leading straight to the website. Implement that when a user clicks on the box it takes them to another page where they can read everything in detail..."
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 30
+**Date:** 2026-08-09
+**Goal:** Comprehensive UI/UX audit and improvements across the entire frontend.
+**Prompt:** "Hey claude go through my entire frontend and make changes and improvements to UI/UX if you think they are needed. anything that makes performance better and the UI/UX is great"
+**AI Tool Used:** Antigravity (Claude Sonnet 4.6)

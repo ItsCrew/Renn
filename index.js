@@ -10,8 +10,13 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 // Import Models
-const Agent = require('./models/Agent');
 const Post = require('./models/Post');
+
+// The single, consistent AI persona
+const SINGLE_PERSONA = {
+  name: "Renn (Lead AI Product Analyst & Tech Ethicist)",
+  domain: "Analyzing the rapid advancement of Artificial Intelligence, Machine Learning models, Robotics, and their ethical implications on open source software and society. Maintains a slightly skeptical, highly analytical, and deeply technical editorial voice. Rejects fluff and hype."
+};
 
 // Initialize MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -20,46 +25,11 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // --- API ENDPOINTS ---
 
-// 1. Initialize Agent
-app.post('/api/agent/init', async (req, res) => {
+// Retrieve Feed
+app.get('/api/feed', async (req, res) => {
   try {
-    const { persona } = req.body;
-    
-    if (!persona || !persona.name || !persona.domain) {
-      return res.status(400).json({ error: 'Invalid persona provided' });
-    }
-
-    // Generate unique agentId
-    const agentId = `agent-${Date.now()}`;
-    
-    // Save Agent to DB
-    const newAgent = new Agent({
-      agentId,
-      persona
-    });
-    
-    await newAgent.save();
-
-    console.log(`Initialized agent ${agentId} with persona:`, persona);
-
-    res.json({ agentId });
-  } catch (error) {
-    console.error('Error in /init:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// 2. Retrieve Feed
-app.get('/api/agent/feed', async (req, res) => {
-  try {
-    const { agentId } = req.query;
-    
-    if (!agentId) {
-      return res.status(400).json({ error: 'agentId query parameter is required' });
-    }
-
-    // Fetch posts for this agentId in reverse chronological order
-    const posts = await Post.find({ agentId }).sort({ createdAt: -1 });
+    // Fetch posts in reverse chronological order
+    const posts = await Post.find({}).sort({ createdAt: -1 });
     
     res.json({
       posts
@@ -74,20 +44,16 @@ app.get('/api/agent/feed', async (req, res) => {
 // Import Services
 const { discoverTopics } = require('./services/discovery');
 const { generatePost } = require('./services/llm');
+const { getAgentMemory, saveAgentMemory } = require('./services/breeth');
 
 // --- CRON JOB (AUTONOMOUS LOOP) ---
 // Runs every 2 hours
-// cron.schedule('0 */2 * * *', async () => {
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 */2 * * *', async () => {
+  // Runs every minute
+// cron.schedule('* * * * *', async () => { 
   console.log('\n⏰ [Cron] Waking up to run autonomous loop...');
   
   try {
-    const agents = await Agent.find();
-    if (agents.length === 0) {
-      console.log('[Cron] No active agents found. Sleeping...');
-      return;
-    }
-
     console.log('[Cron] Fetching live topics...');
     const topics = await discoverTopics();
     if (topics.length === 0) {
@@ -95,39 +61,48 @@ cron.schedule('* * * * *', async () => {
       return;
     }
 
-    for (const agent of agents) {
-      console.log(`\n[Cron] Processing agent: ${agent.persona.name} (${agent.agentId})`);
+    console.log(`\n[Cron] Processing for persona: ${SINGLE_PERSONA.name}`);
+    
+    // Memory check: Fetch recent posts to avoid repetition
+    const recentPosts = await Post.find({})
+      .sort({ createdAt: -1 })
+      .limit(15);
+    
+    let recentTopicsText = "None yet.";
+    if (recentPosts.length > 0) {
+      recentTopicsText = recentPosts.map((p, i) => `${i + 1}. Rationale: ${p.rationale} | URL: ${p.sources[0]}`).join('\n');
+    }
+
+    console.log('[Cron] Retrieving intent-aware memory from Breeth...');
+    const breethMemory = await getAgentMemory("renn-agent-1");
+
+    console.log('[Cron] Asking Groq to evaluate topics...');
+    const llmResponse = await generatePost(SINGLE_PERSONA, topics, recentTopicsText, breethMemory);
+
+    if (llmResponse && llmResponse.selected) {
+      console.log(`[Cron] ✍️  Agent decided to post! Saving to DB...`);
       
-      // Memory check: Fetch recent posts to avoid repetition
-      const recentPosts = await Post.find({ agentId: agent.agentId })
-        .sort({ createdAt: -1 })
-        .limit(10);
-      
-      let recentTopicsText = "None yet.";
-      if (recentPosts.length > 0) {
-        recentTopicsText = recentPosts.map((p, i) => `${i + 1}. Rationale: ${p.rationale} | URL: ${p.sources[0]}`).join('\n');
-      }
+      const newPost = new Post({
+        text: llmResponse.text,
+        rationale: llmResponse.rationale,
+        sources: [llmResponse.sourceUrl]
+      });
 
-      console.log('[Cron] Asking Groq to evaluate topics...');
-      const llmResponse = await generatePost(agent.persona, topics, recentTopicsText);
+      await newPost.save();
+      console.log(`[Cron] ✅ Post saved successfully.`);
 
-      if (llmResponse && llmResponse.selected) {
-        console.log(`[Cron] ✍️  Agent decided to post! Saving to DB...`);
-        
-        const newPost = new Post({
-          agentId: agent.agentId,
-          text: llmResponse.text,
-          rationale: llmResponse.rationale,
-          sources: [llmResponse.sourceUrl]
-        });
-
-        await newPost.save();
-        console.log(`[Cron] ✅ Post saved successfully.`);
-      } else if (llmResponse && !llmResponse.selected) {
-        console.log(`[Cron] 🚫 Agent rejected all topics. Rationale: ${llmResponse.rationale}`);
-      } else {
-        console.log(`[Cron] ⚠️ LLM returned invalid response or crashed.`);
-      }
+      // Save the intent-aware rationale back to Breeth
+      console.log(`[Cron] Saving rationale back to Breeth memory...`);
+      await saveAgentMemory(
+        "renn-agent-1", 
+        `Agent posted about: ${llmResponse.sourceUrl}`, 
+        llmResponse.rationale, 
+        SINGLE_PERSONA.domain
+      );
+    } else if (llmResponse && !llmResponse.selected) {
+      console.log(`[Cron] 🚫 Agent rejected all topics. Rationale: ${llmResponse.rationale}`);
+    } else {
+      console.log(`[Cron] ⚠️ LLM returned invalid response or crashed.`);
     }
   } catch (err) {
     console.error('[Cron] Error during autonomous loop:', err);

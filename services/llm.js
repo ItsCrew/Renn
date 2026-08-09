@@ -6,18 +6,23 @@ const axios = require('axios');
  * @param {Object} persona - The agent's persona { name, domain }
  * @param {Array} topics - The array of discovered RSS headlines
  * @param {String} recentTopicsText - String containing titles of recently posted articles to avoid repetition
+ * @param {String} breethMemory - Intent-aware memories retrieved from Breeth AI
  * @returns {Promise<Object>} - The JSON result from Groq
  */
-async function generatePost(persona, topics, recentTopicsText) {
+async function generatePost(persona, topics, recentTopicsText, breethMemory = "") {
   // Ensure the API key exists
   if (!process.env.GROQ_API_KEY) {
     throw new Error("GROQ_API_KEY is not set in the .env file.");
   }
 
+  const memoryContext = breethMemory 
+    ? `\nAGENT's PAST BELIEFS & INTENT-AWARE MEMORIES (From Breeth AI):\n${breethMemory}\nUse these deep memories to guide your editorial decisions.\n`
+    : "";
+
   const prompt = `
 You are an autonomous AI persona named ${persona.name}.
 Your domain of expertise is ${persona.domain}.
-
+${memoryContext}
 You must act strictly as this persona and demonstrate independent editorial judgment. 
 Below are recent headlines discovered from live information sources. 
 You must intentionally reject most of these topics if they do not meet your publishing standards, do not fit your distinct voice, or if you have already talked about them.

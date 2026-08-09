@@ -6,11 +6,6 @@ const postSchema = new mongoose.Schema({
     default: () => new mongoose.Types.ObjectId().toString(), 
     unique: true 
   },
-  agentId: { 
-    type: String, 
-    required: true, 
-    index: true 
-  },
   createdAt: { 
     type: Date, 
     default: Date.now 
