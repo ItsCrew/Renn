@@ -191,3 +191,21 @@ This file serves as a log of all prompts and AI interactions used during the dev
 **Goal:** Comprehensive UI/UX audit and improvements across the entire frontend.
 **Prompt:** "Hey claude go through my entire frontend and make changes and improvements to UI/UX if you think they are needed. anything that makes performance better and the UI/UX is great"
 **AI Tool Used:** Antigravity (Claude Sonnet 4.6)
+
+### Entry 31
+**Date:** 2026-08-09
+**Goal:** Determine the best free hosting architecture for a full-stack Node/React app with a background cron agent.
+**Prompt:** "Whats the best way to host this website for completely free"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 32
+**Date:** 2026-08-09
+**Goal:** Assess using a personal OVH Cloud VPS for hosting.
+**Prompt:** "I do have a vps i bought on ovh cloud. can i use that to host this website?"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
+
+### Entry 33
+**Date:** 2026-08-09
+**Goal:** Find workarounds for hosting without a domain name.
+**Prompt:** "I do not have a domain"
+**AI Tool Used:** Antigravity (Gemini 3.1 Pro)
